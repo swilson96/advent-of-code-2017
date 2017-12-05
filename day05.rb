@@ -36,3 +36,26 @@ puts solve1($realInput)
 
 
 # second half
+
+def solve2(input)
+  index = 0
+  step = 0
+  instructions = input.lines.map { |a| a.to_i }
+
+  while index >= 0 && index < instructions.length
+    # printInstructions instructions, index
+    jump = instructions[index]
+
+    instructions[index] += 1 unless jump >= 3
+    instructions[index] -= 1 unless jump < 3
+
+    index += jump
+    step += 1
+  end
+
+  step
+end
+
+puts "part 2"
+puts solve2($testInput)
+puts solve2($realInput)
