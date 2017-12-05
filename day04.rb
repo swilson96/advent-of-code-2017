@@ -518,7 +518,7 @@ kebx eild nrskdr meja jxczomh gcne"
 $total = 0
 
 $input.each_line do |line|
-  if (line.split.uniq.length == line.split.length)
+  if line.split.uniq.length == line.split.length
     $total += 1
   end
 end
@@ -527,4 +527,38 @@ puts $total
 
 # second half
 
+$total = 0
+
+def anagram?(aw, bw)
+  return false unless aw.size == bw.size
+  counts = aw.downcase.each_char.with_object(Hash.new(0)) { |c,h| h[c] += 1 }
+  bw.downcase.each_char do |c|
+    return false unless counts[c] > 0
+    counts[c] -= 1
+  end
+  true
+end
+
+$input.each_line do |line|
+  words = line.split
+
+  anag = false
+  (0..(words.length-1)).each do |i1|
+    a = words[i1]
+    ((i1+1)..(words.length-1)).each do |i2|
+      b = words[i2]
+      #puts "comparing: #{a} and #{b}"
+      if anagram?(a, b)
+        #puts "#{b} divids #{a}?"
+        anag = true
+      end
+    end
+  end
+
+  if !anag
+    $total += 1
+  end
+end
+
+puts $total
 
