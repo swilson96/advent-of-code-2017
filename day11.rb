@@ -54,7 +54,7 @@ test "ne,ne,sw,sw", 0
 test "ne,ne,s,s", 2
 test "se,sw,se,sw,sw", 3
 
-$realInput = File.open("day11.txt").read
+$realInput = File.open("inputs/day11.txt").read
 
 puts shorten $realInput
 

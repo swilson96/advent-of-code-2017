@@ -30,7 +30,7 @@ end
 
 puts solve1($testInput)
 
-$realInput = File.open("day05.txt").read
+$realInput = File.open("inputs/day05.txt").read
 
 puts solve1($realInput)
 

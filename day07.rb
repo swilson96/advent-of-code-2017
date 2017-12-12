@@ -12,7 +12,7 @@ ugml (68) -> gyxo, ebii, jptl
 gyxo (61)
 cntj (57)"
 
-$realInput = File.open("day07.txt").read
+$realInput = File.open("inputs/day07.txt").read
 
 def printInstructions(instructions, index)
   puts "#{instructions.join(" ")} index: #{index}"

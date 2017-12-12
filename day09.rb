@@ -56,7 +56,7 @@ test "{{<ab>},{<ab>},{<ab>},{<ab>}}", 9
 test "{{<!!>},{<!!>},{<!!>},{<!!>}}", 9
 test "{{<a!>},{<a!>},{<a!>},{<ab>}}", 3
 
-$realInput = File.open("day09.txt").read
+$realInput = File.open("inputs/day09.txt").read
 
 puts score $realInput
 

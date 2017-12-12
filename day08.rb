@@ -3,7 +3,7 @@ a inc 1 if b < 5
 c dec -10 if a >= 1
 c inc -20 if c == 10"
 
-$realInput = File.open("day08.txt").read
+$realInput = File.open("inputs/day08.txt").read
 
 class Instruction
   def initialize(input)
