@@ -1,11 +1,8 @@
-def hash size, lengths_string
+def one_hash_round size, lengths_string
   lengths = lengths_string.split(',').map {|a| a.to_i}
   list = (0..(size-1)).to_a
   #puts list.join(", ")
-  one_hash_round size, lengths, list
-end
 
-def one_hash_round size, lengths, list
   pos = 0
   skip = 0
   lengths.each do |length|
@@ -22,7 +19,7 @@ def one_hash_round size, lengths, list
 end
 
 def test size, lengths, expected
-  result = hash size, lengths
+  result = one_hash_round size, lengths
   # puts "#{stream} PASS!" if result == expected
   puts "#{size} : #{lengths} FAIL!!! expected #{expected} got #{result}" if result != expected
 end
@@ -31,7 +28,7 @@ test 5, "3,4,1,5", 12
 
 $realInput = "165,1,255,31,87,52,24,113,0,91,148,254,158,2,73,153"
 
-puts hash 256, $realInput
+puts one_hash_round 256, $realInput
 
 def to_hex_string a
   hex = a.to_s(16)
