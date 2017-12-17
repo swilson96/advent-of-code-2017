@@ -1,9 +1,5 @@
 require_relative "./day10"
 
-class Layer
-
-end
-
 class Day14
   def initialize(input)
     @rows = (0..127).map{ |row| knot_hash 256, "#{@input}-#{row}" }
