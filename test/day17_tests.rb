@@ -24,14 +24,16 @@ class Day17Tests < Test::Unit::TestCase
     assert_equal(638, spinner.solve(2017))
   end
 
+  def test_solve_part_1
+    spinner = Spinner.new(@real_input)
+    assert_equal(866, spinner.solve(2017))
+  end
 
-  def test_solve_real
+  def test_solve_part_2
     spinner = Spinner.new(@real_input)
 
     puts ""
-
-    puts "Answer:"
-    puts spinner.solve 2017
-
+    puts "Answer part 2:"
+    puts spinner.new_solve 50000000
   end
 end
