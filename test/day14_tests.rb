@@ -23,14 +23,17 @@ class Day14Tests < Test::Unit::TestCase
 
   def test_regions_from_q
     solver = Day14.new(@test_input)
-    assert_equal(8108, solver.count)
+    assert_equal(1242, solver.count_regions)
   end
 
   def test_solve_real
     solver = Day14.new(@real_input)
+
     puts ""
+
     puts "Used locations:"
     puts solver.count
+
     puts "Number of regions:"
     puts solver.count_regions
   end
