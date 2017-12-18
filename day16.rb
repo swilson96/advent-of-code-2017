@@ -1,3 +1,5 @@
+require_relative './stopwatch.rb'
+
 class Step
   def initialize(serialised_step, party_size)
     @party_size = party_size
@@ -35,7 +37,7 @@ class Step
         exit 1
     end
 
-    puts "#{@serialised_step.rjust(6, ' ')} : #{state.join}"
+    # puts "#{to_s.rjust(6, ' ')} : #{state.join}"
     state
   end
 
@@ -52,11 +54,82 @@ class Dance
     @steps = steps.split(/,/).map { |s| Step.new s, party_size }
   end
 
-  def execute
+  def execute_from_scratch
     @steps.each do |step|
       @state = step.apply(@state)
     end
     @state.join
   end
+
+  def execute positions
+    state = positions.clone
+    @steps.each do |step|
+      state = step.apply(state)
+    end
+    state
+  end
+
+  Blank = ('a'..'p').to_a
+  
+  def find_period
+    period = 1
+    state = execute Blank
+    while state != Blank
+      state = execute state
+      period += 1
+    end
+    period
+  end
+
+  One_billion = 1000000000
+
+  def one_billion
+    watch = Stopwatch.new
+    state = Blank
+    times_to_do = One_billion % find_period
+    puts "only need to execute it #{times_to_do} times!"
+    (1..times_to_do).each do |time|
+      state = execute state
+      # puts "#{time}: #{state.join}"
+      # puts "#{time * 100.0/times_to_do}% complete in #{watch.seconds}s" if time % 5000000 == 0
+    end
+    state.join
+  end
 end
 
+class Permutation
+  def initialize(input)
+    @permutation = input.split(//).map{|char| ('a'..'z').to_a.index(char) }
+  end
+
+  def apply array
+    @permutation.map{|i| array[i]}
+  end
+
+  def find_period
+    period = 1
+    state = apply Blank
+    while state != Blank
+      state = apply state
+      period += 1
+      puts period if period % 1000000 == 0
+    end
+    period
+  end
+
+  Blank = (0..15).to_a
+  One_billion = 1000000000
+
+  def one_billion
+    watch = Stopwatch.new
+    state = Blank
+    times_to_do = One_billion % find_period
+    puts "only need to apply it #{times_to_do} times!"
+    (1..times_to_do).each do |time|
+      state = apply state
+      # puts "#{time}: #{state.map {|i| ('a'..'z').to_a[i]}.join}"
+      # puts "#{time * 100.0/times_to_do}% complete in #{watch.seconds}s" if time % 5000000 == 0
+    end
+    state.map {|i| ('a'..'z').to_a[i]}.join
+  end
+end
