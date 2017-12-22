@@ -108,9 +108,6 @@ def iterate(times, input)
     art = enhance(art, map)
   end
 
-  puts ''
-  puts art
-
   art
 end
 

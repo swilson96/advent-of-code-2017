@@ -8,54 +8,7 @@ DOWN = 1
 LEFT = 2
 UP = 3
 
-class Point
-  attr_accessor :x, :y
-
-  def initialize(x,y)
-    @x = x
-    @y = y
-  end
-
-  def move(direction)
-    case direction
-      when RIGHT
-        right
-      when DOWN
-        down
-      when LEFT
-        left
-      when UP
-        up
-      else
-        puts "UNKNOWN DIRECTION: #{direction}"
-        exit 1
-    end
-  end
-
-  def left
-    Point.new x - 1, y
-  end
-
-  def right
-    Point.new x + 1, y
-  end
-
-  def up
-    Point.new x, y - 1
-  end
-
-  def down
-    Point.new x, y + 1
-  end
-
-  def to_s
-    "(#{@x},#{@y})"
-  end
-
-  def ==(other)
-    other.x == @x && other.y == @y
-  end
-end
+require_relative './util/point'
 
 class Robot
   def initialize(maze)
@@ -111,7 +64,7 @@ class Robot
   def find_start
     @position = Point.new 0, 0
     while look_here == ' '
-      @position = @position.right
+      @position = @position.move(RIGHT, 1)
     end
     @position # return for testing
   end
@@ -120,7 +73,7 @@ class Robot
     if !can_move(@direction) || look_around(@direction) == ' '
       @finished = true
     else
-      @position = @position.move(@direction)
+      @position = @position.move(@direction, 1)
 
       if @found.include?(look_here)
         puts "LOOP! unless the letter is at a crossover: #{look_here}"
@@ -150,7 +103,7 @@ class Robot
   end
 
   def look_around(direction)
-    look @position.move(direction)
+    look @position.move(direction, 1)
   end
 
   def find_next_direction

@@ -45,6 +45,8 @@ class Day19Tests < Test::Unit::TestCase
     puts 'Answer:'
     puts robot.found
     puts "in #{moves} moves"
+
+    assert_equal(17728, moves)
   end
 
 end
