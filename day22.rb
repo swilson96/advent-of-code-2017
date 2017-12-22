@@ -22,15 +22,15 @@ class Virus
     @map[point.y][point.x] == '#'
   end
 
-  def infect(point)
-    expand(point.y)
-    @map[point.y][point.x] = '#'
+  def infect
+    expand(@position.y)
+    @map[@position.y][@position.x] = '#'
     @infected += 1
   end
 
-  def disinfect(point)
-    expand(point.y)
-    @map[point.y][point.x] = '.'
+  def clean
+    expand(@position.y)
+    @map[@position.y][@position.x] = '.'
   end
 
   def get_value
@@ -46,9 +46,9 @@ class Virus
     end
 
     if infected?(@position)
-      disinfect(@position)
+      clean
     else
-      infect(@position)
+      infect
     end
 
     @position = @position.move(@direction, 1)
@@ -95,18 +95,14 @@ end
 
 class Evolved < Virus
 
-  def flag(point)
-    expand(point.y)
-    @map[point.y][point.x] = 'F'
+  def flag
+    expand(@position.y)
+    @map[@position.y][@position.x] = 'F'
   end
 
   def weaken
     expand(@position.y)
     @map[@position.y][@position.x] = 'W'
-  end
-
-  def count
-    @map.values.inject(0){|acc, row| acc + row.values.inject(0){|inner_acc, char| inner_acc + (char == '#' ? 1 : 0)}}
   end
 
   def burst
@@ -121,13 +117,13 @@ class Evolved < Virus
         weaken
       when 'W'
         # no change of direction
-        infect(@position)
+        infect
       when '#'
         @direction = Direction::turn_right(@direction)
-        flag(@position)
+        flag
       when 'F'
         @direction = Direction::reverse(@direction)
-        disinfect(@position)
+        clean
       else
         puts "wha??"
     end
