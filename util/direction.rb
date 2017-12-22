@@ -17,6 +17,10 @@ class Direction
     (direction - 1) % 4
   end
 
+  def self.reverse(direction)
+    (direction + 2) % 4
+  end
+
   def self.print(direction)
     case direction
       when Direction::RIGHT

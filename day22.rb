@@ -1,5 +1,6 @@
 require_relative './util/direction'
 require_relative './util/point'
+require_relative './stopwatch'
 
 class Virus
 
@@ -30,6 +31,11 @@ class Virus
   def disinfect(point)
     expand(point.y)
     @map[point.y][point.x] = '.'
+  end
+
+  def get_value
+    expand(@position.y)
+    @map[@position.y][@position.x]
   end
 
   def burst
@@ -68,16 +74,65 @@ class Virus
   end
 
   def spread(bursts)
+    watch = Stopwatch.new
     (1..bursts).each do |burst_index|
       # puts "turn: #{burst_index} direction: #{Direction::print @direction}, position: #{@position}, char: #{@map[@position.y][@position.x]}, infected? #{infected? @position}"
       # print_map
       burst
+
+      if burst_index % 1000000 == 0
+        puts "burst #{burst_index}, infected #{@infected} after #{watch.seconds}s"
+      end
     end
 
-    # puts "after #{bursts} bursts"
+    # puts "after #{burst_index} bursts"
     # print_map
 
     @infected
+  end
+
+end
+
+class Evolved < Virus
+
+  def flag(point)
+    expand(point.y)
+    @map[point.y][point.x] = 'F'
+  end
+
+  def weaken
+    expand(@position.y)
+    @map[@position.y][@position.x] = 'W'
+  end
+
+  def count
+    @map.values.inject(0){|acc, row| acc + row.values.inject(0){|inner_acc, char| inner_acc + (char == '#' ? 1 : 0)}}
+  end
+
+  def burst
+    value = get_value
+
+    case value
+      when nil
+        @direction = Direction::turn_left(@direction)
+        weaken
+      when '.'
+        @direction = Direction::turn_left(@direction)
+        weaken
+      when 'W'
+        # no change of direction
+        infect(@position)
+      when '#'
+        @direction = Direction::turn_right(@direction)
+        flag(@position)
+      when 'F'
+        @direction = Direction::reverse(@direction)
+        disinfect(@position)
+      else
+        puts "wha??"
+    end
+
+    @position = @position.move(@direction, 1)
   end
 
 end
