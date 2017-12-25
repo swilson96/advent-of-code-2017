@@ -8,12 +8,7 @@ class Day25Tests < Test::Unit::TestCase
     result = turing
     puts ''
     puts "ANSWER part 1: #{result}"
-    # assert_equal(0, result)
-  end
-  def test_part_2
-
-    puts ''
-    puts "ANSWER part 2: #{0}"
+    assert_equal(2832, result)
   end
 
 end
